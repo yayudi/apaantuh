@@ -1,6 +1,5 @@
 <template>
   <a-space direction="vertical">
-    <h3>Pencarian</h3>
     <a-input-search
       v-model:value="search"
       placeholder="Masukkan kata kunci..."

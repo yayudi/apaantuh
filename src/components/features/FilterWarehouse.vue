@@ -53,7 +53,6 @@
         Draft
       </a-tag>
     </div>
-    Name Toko Marketplace No Sales Order Tanggal Order Total Harga Jenis Sales
   </a-space>
 </template>
 

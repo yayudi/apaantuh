@@ -7,13 +7,13 @@ import { Button, type FlexProps } from 'ant-design-vue'
 
 // import icon
 import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiFileDocumentArrowRightOutline, mdiClose, mdiFilter } from '@mdi/js'
+import { mdiLineScan, mdiClose, mdiFilter } from '@mdi/js'
 
 // import feature
 import Search from '../features/Search.vue'
 import FilterWarehouse from '../features/FilterWarehouse.vue'
-import OnlineResults from '../features/OnlineResults.vue'
-import OfflineResults from '../features/OfflineResults.vue'
+import OnlineSalesWarehouse from '../features/OnlineSalesWarehouse.vue'
+import OfflineSalesWarehouse from '../features/OfflineSalesWarehouse.vue'
 
 const justifyOptions = reactive<FlexProps['justify'][]>([
   'flex-start',
@@ -37,17 +37,17 @@ const boxStyle: CSSProperties = {
 export default {
   name: 'SalesWarehouse-component',
   components: {
-    FilterWarehouse,
-    OnlineResults,
-    OfflineResults,
     Search,
+    FilterWarehouse,
+    OnlineSalesWarehouse,
+    OfflineSalesWarehouse,
     SvgIcon,
     AButton: Button
     // AButtonGroup: ButtonGroup
   },
   data() {
     return {
-      export: mdiFileDocumentArrowRightOutline,
+      scan: mdiLineScan,
       close: mdiClose,
       filter: mdiFilter,
       activeKey: ref('1')
@@ -57,22 +57,25 @@ export default {
 </script>
 
 <template>
+  <!-- header -->
   <a-row>
     <a-col :span="12">
       <h1>Report</h1>
     </a-col>
-    <a-col :span="6"></a-col>
-    <a-col :span="6">
+    <a-col :span="4"></a-col>
+    <a-col :span="8">
       <a-button>
         <a-flex :style="{ ...boxStyle }" :justify="justify" :align="alignItems">
-          <svg-icon type="mdi" :path="export"></svg-icon>Export
+          <svg-icon type="mdi" :path="scan"></svg-icon>Pindai
         </a-flex>
       </a-button>
     </a-col>
   </a-row>
+  <!-- search -->
   <a-row>
     <Search />
   </a-row>
+  <!-- filter -->
   <a-row>
     <a-dropdown>
       <a class="ant-dropdown-link" @click.prevent>
@@ -95,13 +98,14 @@ export default {
       </template>
     </a-dropdown>
   </a-row>
+  <!-- result -->
   <a-row>
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="1" tab="Online">
-        <OnlineResults />
+        <OnlineSalesWarehouse />
       </a-tab-pane>
       <a-tab-pane key="2" tab="Offline" force-render>
-        <OfflineResults />
+        <OfflineSalesWarehouse />
       </a-tab-pane>
     </a-tabs>
   </a-row>
