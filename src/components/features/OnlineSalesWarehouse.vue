@@ -8,7 +8,9 @@
               <template #title>
                 <a-row>
                   <a-col :span="16">
-                    <a href="#">{{ item.noInvoice }}</a>
+                    <a-typography-paragraph copyable strong>
+                      {{ item.noInvoice }}
+                    </a-typography-paragraph>
                   </a-col>
                   <a-col :span="8">
                     {{ item.statusSales }}
@@ -24,6 +26,10 @@
             <a-row>
               <a-col :span="12">Marketplace</a-col>
               <a-col :span="12">{{ item.marketPlace }}</a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12">Nama Customer</a-col>
+              <a-col :span="12">{{ item.namaCustomer }}</a-col>
             </a-row>
             <a-row>
               <a-col :span="12">Tanggal Order</a-col>
@@ -46,6 +52,7 @@ interface DataItem extends ComponentCustomProperties {
   statusSales: string
   namaToko: string
   marketPlace: string
+  namaCustomer: string
   tanggalOrder: string
   totalItem: number
 }
@@ -55,6 +62,7 @@ const data: DataItem[] = [
     statusSales: 'Pending',
     namaToko: 'Pusat Pneumatic',
     marketPlace: 'Bukalapak',
+    namaCustomer: 'Sal Priadi',
     tanggalOrder: '2022-06-05 10:52:00',
     totalItem: 1000
   },
@@ -63,6 +71,7 @@ const data: DataItem[] = [
     statusSales: 'Draft',
     namaToko: 'Grosir Hidrolik',
     marketPlace: 'Shopee',
+    namaCustomer: 'Randy Orton',
     tanggalOrder: '2020-12-07 14:25:10',
     totalItem: 900
   },
@@ -71,6 +80,7 @@ const data: DataItem[] = [
     statusSales: 'Selesai',
     namaToko: 'Hare',
     marketPlace: 'Tokopedia',
+    namaCustomer: 'Wakabayashi Genzo',
     tanggalOrder: '2024-08-01 17:10:05',
     totalItem: 150
   }
