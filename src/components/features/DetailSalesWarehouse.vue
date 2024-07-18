@@ -20,43 +20,39 @@
         </a-list-item-meta>
       </a-list-item>
       <a-list-item>
-        <a-list>
+        <a-list class="invoiceDetail">
           <a-list-item>
-            <a-row>
-              <a-col :span="12">Tanggal Order</a-col>
-              <a-col :span="12">{{ item.tanggalOrder }}</a-col>
-            </a-row>
+            <a-col :span="12">Nama Customer</a-col>
+            <a-col :span="12">{{ item.namaCustomer }}</a-col>
           </a-list-item>
           <a-list-item>
-            <a-row>
-              <a-col :span="12">Toko</a-col>
-              <a-col :span="12">{{ item.namaToko }}</a-col>
-            </a-row>
+            <a-col :span="12">Tanggal Order</a-col>
+            <a-col :span="12">{{ item.tanggalOrder }}</a-col>
           </a-list-item>
           <a-list-item>
-            <a-row>
-              <a-col :span="12">Marketplace</a-col>
-              <a-col :span="12">{{ item.marketPlace }}</a-col>
-            </a-row>
+            <a-col :span="12">Toko</a-col>
+            <a-col :span="12">{{ item.namaToko }}</a-col>
+          </a-list-item>
+          <a-list-item>
+            <a-col :span="12">Marketplace</a-col>
+            <a-col :span="12">{{ item.marketPlace }}</a-col>
           </a-list-item>
           <a-list-item>
             <a-card>
               <a-list-item>
-                <a-row>
-                  <a-col :span="12">Total Item</a-col>
-                  <a-col :span="12">{{ item.totalItem }} item</a-col>
-                </a-row>
+                <a-col :span="12">Total Item</a-col>
+                <a-col :span="12">{{ item.totalItem }} item</a-col>
               </a-list-item>
               <a-list v-for="(productItem, index) in item.productItems">
                 <a-list-item :index>
-                  <a-row>
+                  <a-row :gutter="{ xs: 8, sm: 16, md: 24, lg: 32 }">
                     <a-col :span="6">
                       <a-image
                         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                        style="margin-bottom: 2vh;"
+                        style="margin-bottom: 2vh"
                       />
                     </a-col>
-                    <a-col :span="14" class="listItem">
+                    <a-col :span="15" class="listItem">
                       <a-row>
                         <a-col :span="6">product</a-col>
                         <a-col :span="18">{{ productItem.product }}</a-col>
@@ -74,9 +70,26 @@
                         <a-col :span="18">Rp. {{ productItem.price }}</a-col>
                       </a-row>
                     </a-col>
-                    <a-col :span="4" class="invisible-checkboxes" v-model="checkedList" @change="onChange" :key="value">
-                      <a-checkbox :value="value" />
-                      <label class="checkbox-alias" />
+                    <a-col :span="3" class="itemQuantity">
+                      <!-- <a-input-number
+                        v-model:value="pickingAll"
+                        :min="1"
+                        :max="10000"
+                        :formatter="(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                        @change="onChange"
+                        :key="index"
+                      /> -->
+                      <!-- <a-button type="primary" class="btnPickingAll"> <CheckOutlined /> Picking All </a-button> -->
+
+                      <a-input-number v-model="pickingAll" :min="1" :max="10000" />
+                      <a-button type="primary" class="btnPickingAll" @click="productItem.qty">
+                        Pick All
+                      </a-button>
+                      <!-- <a-button type="primary" class="btnPickingAll" @click="setQuantityToMax"
+                        >Picking All</a-button> -->
+
+                      <a-button type="primary" danger> Hapus </a-button>
                     </a-col>
                   </a-row>
                 </a-list-item>
@@ -85,19 +98,13 @@
           </a-list-item>
         </a-list>
       </a-list-item>
-      <a-list-item class="actionButton">
-        <a-button type="primary">
-          <GoldFilled /> Pengambilan Produk
-        </a-button>
-        <a-button type="primary">
-          <DropboxOutlined /> Pengemasan Produk
-        </a-button>
+      <a-list-item class="actionButtons">
+        <a-button type="primary"> <GoldFilled /> Pengambilan Produk </a-button>
+        <a-button type="primary"> <DropboxOutlined /> Pengemasan Produk </a-button>
         <a-button type="primary" style="background: LimeGreen">
           <CarFilled /> Request Pickup
         </a-button>
-        <a-button type="primary" danger>
-          <CloseCircleOutlined /> Cancel
-        </a-button>
+        <a-button type="primary" danger> <CloseCircleOutlined /> Cancel </a-button>
       </a-list-item>
     </template>
   </a-list>
@@ -164,13 +171,14 @@ export default DetailSalesWarehouse({
   },
   data() {
     return {
-      checkedList: []
-    };
+      // checkedList: []
+      checked: []
+    }
   },
   methods: {
-    onChange(checkedValues) {
-      console.log('checked = ', checkedValues);
-    },
+    // onChange(checkedValues) {
+    //   console.log('checked = ', checkedValues)
+    // }
   },
   setup() {
     return {
@@ -183,22 +191,51 @@ export default DetailSalesWarehouse({
 </script>
 
 <style scoped>
-.listItem .ant-row .ant-col:nth-child(2){
+.listItem .ant-row .ant-col:nth-child(1) {
+  text-align: left;
+}
+.invoiceDetail .ant-col:nth-child(2),
+.listItem .ant-row .ant-col:nth-child(2) {
   text-align: right;
 }
-.actionButton .ant-btn {
+.actionButtons {
   display: block;
-  width: 150px;
-  position: relative;
+}
+.actionButtons button,
+.itemQuantity button {
+  width: 100%;
+  height: auto;
+  padding: 0.5rem;
 }
 
+.actionButtons button {
+  margin: 0.5rem 2rem;
+}
 
+.itemQuantity button {
+  width: 90px;
+  margin: 0.25rem 0;
+}
+/*.invisible-checkboxes .ant-checkbox {
+  display: none;
+}
+
+.color-box {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  transition: background-color 250ms ease-out;
+}
+
+.color-box.checked {
+  background-color: green;
+}
 
 .invisible-checkboxes input[type=checkbox]{
 display: none;
-/*   margin-right: -20px;
+ margin-right: -20px;
 position: relative;
-z-index: 2; */
+z-index: 2; 
 }
 
 .invisible-checkboxes input[type=checkbox]:checked + .checkbox-alias{
@@ -222,5 +259,5 @@ z-index: 2; */
 
 .invisible-checkboxes .ant-checkbox-inner:checked + .checkbox-alias {
   background-color: green;
-}
+}*/
 </style>
