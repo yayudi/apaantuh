@@ -14,6 +14,7 @@ import FilterWarehouse from '../features/FilterWarehouse.vue'
 import OnlineSalesWarehouse from '../features/OnlineSalesWarehouse.vue'
 import OfflineSalesWarehouse from '../features/OfflineSalesWarehouse.vue'
 import DetailSalesWarehouse from '../features/DetailSalesWarehouse.vue'
+import PickingSalesWarehouse  from '../features/PickingSalesWarehouse.vue'
 import StatusSales from '../features/StatusSales.vue'
 
 const justifyOptions = reactive<FlexProps['justify'][]>([
@@ -43,6 +44,7 @@ export default SalesWarehouse({
     OnlineSalesWarehouse,
     OfflineSalesWarehouse,
     DetailSalesWarehouse,
+    PickingSalesWarehouse,
     CloseOutlined,
     FilterOutlined,
     ScanOutlined,
@@ -61,36 +63,42 @@ export default SalesWarehouse({
 <template>
   <!-- header -->
   <a-row>
-    <a-col :span="12">
-      <h1>Sales</h1>
-    </a-col>
-    <a-col :span="4"></a-col>
-    <a-col :span="8">
-      <a-button>
-        <a-flex :style="{ ...boxStyle }" :justify="justify" :align="alignItems">
-          <ScanOutlined />Pindai
-        </a-flex>
-      </a-button>
-    </a-col>
-  </a-row>
-  <!-- search -->
-  <a-row>
-    <Search />
-  </a-row>
-  <!-- filter -->
-  <a-row>
-    <a-dropdown>
-      <a class="ant-dropdown-link" @click.prevent>
-        <FilterOutlined />Filter
-        <DownOutlined />
-      </a>
-      <template #overlay>
-        <a-space direction="vertical">
-          <FilterWarehouse />
-          <a-button type="primary" danger> <CloseOutlined />Clear Filter </a-button>
-        </a-space>
-      </template>
-    </a-dropdown>
+    <div style="width:100%">
+      <a-page-header
+        class="demo-page-header"
+        title="Sales"
+        @back="() => $router.go(-1)"
+      >
+        <template #extra>
+          <a-button>
+            <a-flex :style="{ ...boxStyle }" :justify="justify" :align="alignItems">
+              <ScanOutlined />Pindai
+            </a-flex>
+          </a-button>
+        </template>
+        <!-- search -->
+        <a-row>
+          <a-col :span="3">
+            <a-dropdown>
+              <a class="ant-dropdown-link" @click.prevent>
+                <FilterOutlined />Filter
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <a-space direction="vertical">
+                  <FilterWarehouse />
+                  <a-button type="primary" danger><CloseOutlined />Clear Filter</a-button>
+                </a-space>
+              </template>
+            </a-dropdown>
+            <Search />
+          </a-col>
+        </a-row>
+        <!-- filter -->
+        <a-row>
+        </a-row>
+      </a-page-header>
+    </div>
   </a-row>
   <!-- result -->
   <a-row>
@@ -104,6 +112,12 @@ export default SalesWarehouse({
       </a-tab-pane>
       <a-tab-pane key="3" tab="Detail" force-render>
         <DetailSalesWarehouse />
+      </a-tab-pane>
+      <a-tab-pane key="4" tab="Picking" force-render>
+        <PickingSalesWarehouse />
+      </a-tab-pane>
+      <a-tab-pane key="5" tab="Packing" force-render>
+        <!-- <PickingSalesWarehouse /> -->
       </a-tab-pane>
     </a-tabs>
   </a-row>

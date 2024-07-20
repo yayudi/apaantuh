@@ -1,5 +1,5 @@
 <template>
-  <a-space direction="vertical">
+  <a-space class="search" direction="vertical">
     <a-input-search
       v-model:value="search"
       placeholder="Masukkan kata kunci..."
@@ -17,3 +17,9 @@ const onSearch = (searchValue: string) => {
   console.log('or use this.value', search.value)
 }
 </script>
+
+<style>
+.search{
+  width: 100%;
+}
+</style>

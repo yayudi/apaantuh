@@ -1,113 +1,103 @@
 <!-- eslint-disable vue/valid-v-for -->
 <template>
   <a-button type="primary" style="margin-bottom: 10px"> <LeftOutlined />Back </a-button>
-  <a-list item-layout="horizontal" :data-source="data">
+  <a-space>  
     <template #renderItem="{ item }">
-      <a-list-item>
-        <a-list-item-meta>
-          <template #title>
-            <a-row>
-              <a-col :span="16">
-                <a-typography-paragraph :level="3" copyable strong>
-                  {{ item.noInvoice }}
-                </a-typography-paragraph>
-              </a-col>
-              <a-col :span="8">
-                {{ item.statusSales }}
-              </a-col>
-            </a-row>
-          </template>
-        </a-list-item-meta>
-      </a-list-item>
-      <a-list-item>
-        <a-list class="invoiceDetail">
+      <a-skeleton
+        :loading="!!data.loading"
+        :data-source="item"
+        active
+      >
+        <a-list bordered :data-source="item">
           <a-list-item>
-            <a-col :span="12">Nama Customer</a-col>
-            <a-col :span="12">{{ item.namaCustomer }}</a-col>
+            <a-list-item-meta>
+              <template #title>
+                <a-row>
+                  <a-col :span="16">
+                    <a-typography-paragraph :level="3" copyable strong>
+                      {{ item.noInvoice }}
+                    </a-typography-paragraph>
+                  </a-col>
+                  <a-col :span="8" style="text-align: right;">
+                    {{ item.statusSales }}
+                  </a-col>
+                </a-row>
+              </template>
+            </a-list-item-meta>
           </a-list-item>
           <a-list-item>
-            <a-col :span="12">Tanggal Order</a-col>
-            <a-col :span="12">{{ item.tanggalOrder }}</a-col>
-          </a-list-item>
-          <a-list-item>
-            <a-col :span="12">Toko</a-col>
-            <a-col :span="12">{{ item.namaToko }}</a-col>
-          </a-list-item>
-          <a-list-item>
-            <a-col :span="12">Marketplace</a-col>
-            <a-col :span="12">{{ item.marketPlace }}</a-col>
-          </a-list-item>
-          <a-list-item>
-            <a-card>
+            <a-list class="invoiceDetail">
               <a-list-item>
-                <a-col :span="12">Total Item</a-col>
-                <a-col :span="12">{{ item.totalItem }} item</a-col>
+                <a-col :span="12">Nama Customer</a-col>
+                <a-col :span="12">{{ item.namaCustomer }}</a-col>
               </a-list-item>
-              <a-list v-for="(productItem, index) in item.productItems">
-                <a-list-item :index>
-                  <a-row :gutter="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-                    <a-col :span="6">
-                      <a-image
-                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                        style="margin-bottom: 2vh"
-                      />
-                    </a-col>
-                    <a-col :span="15" class="listItem">
-                      <a-row>
-                        <a-col :span="6">product</a-col>
-                        <a-col :span="18">{{ productItem.product }}</a-col>
+              <a-list-item>
+                <a-col :span="12">Tanggal Order</a-col>
+                <a-col :span="12">{{ item.tanggalOrder }}</a-col>
+              </a-list-item>
+              <a-list-item>
+                <a-col :span="12">Toko</a-col>
+                <a-col :span="12">{{ item.namaToko }}</a-col>
+              </a-list-item>
+              <a-list-item>
+                <a-col :span="12">Marketplace</a-col>
+                <a-col :span="12">{{ item.marketPlace }}</a-col>
+              </a-list-item>
+              <a-list-item>
+                <a-card>
+                  <a-list-item>
+                    <a-col :span="12">Total Item</a-col>
+                    <a-col :span="12">{{ item.totalItem }} item</a-col>
+                  </a-list-item>
+                  <a-list v-for="(productItem, index) in item.productItems">
+                    <a-list-item :index>
+                      <a-row :gutter="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <a-col :span="6">
+                          <a-image
+                            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                            style="margin-bottom: 2vh"
+                          />
+                        </a-col>
+                        <a-col :span="18" class="listItem">
+                          <a-row>
+                            <a-col :span="24">
+                              <a-typography-text strong>
+                                {{ productItem.product }}
+                              </a-typography-text>
+                            </a-col>
+                          </a-row>
+                          <a-row>
+                            <a-col :span="6">SKU</a-col>
+                            <a-col :span="18">{{ productItem.SKU }}</a-col>
+                          </a-row>
+                          <a-row>
+                            <a-col :span="6">Quantity</a-col>
+                            <a-col :span="18">{{ productItem.qty }} unit</a-col>
+                          </a-row>
+                          <a-row>
+                            <a-col :span="6">Price</a-col>
+                            <a-col :span="18">Rp. {{ productItem.price }}</a-col>
+                          </a-row>
+                        </a-col>
                       </a-row>
-                      <a-row>
-                        <a-col :span="6">SKU</a-col>
-                        <a-col :span="18">{{ productItem.SKU }}</a-col>
-                      </a-row>
-                      <a-row>
-                        <a-col :span="6">Quantity</a-col>
-                        <a-col :span="18">{{ productItem.qty }} unit</a-col>
-                      </a-row>
-                      <a-row>
-                        <a-col :span="6">Price</a-col>
-                        <a-col :span="18">Rp. {{ productItem.price }}</a-col>
-                      </a-row>
-                    </a-col>
-                    <a-col :span="3" class="itemQuantity">
-                      <!-- <a-input-number
-                        v-model:value="pickingAll"
-                        :min="1"
-                        :max="10000"
-                        :formatter="(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-                        @change="onChange"
-                        :key="index"
-                      /> -->
-                      <!-- <a-button type="primary" class="btnPickingAll"> <CheckOutlined /> Picking All </a-button> -->
-
-                      <a-input-number v-model="pickingAll" :min="1" :max="10000" />
-                      <a-button type="primary" class="btnPickingAll" @click="productItem.qty">
-                        Pick All
-                      </a-button>
-                      <!-- <a-button type="primary" class="btnPickingAll" @click="setQuantityToMax"
-                        >Picking All</a-button> -->
-
-                      <a-button type="primary" danger> Hapus </a-button>
-                    </a-col>
-                  </a-row>
-                </a-list-item>
-              </a-list>
-            </a-card>
+                    </a-list-item>
+                  </a-list>
+                </a-card>
+              </a-list-item>
+            </a-list>
+          </a-list-item>
+          <a-list-item class="actionButtons">
+            <a-button type="primary"> <GoldFilled /> Pengambilan Produk </a-button>
+            <a-button type="primary"> <DropboxOutlined /> Pengemasan Produk </a-button>
+            <a-button type="primary" style="background: #00ab9f">
+              <CarFilled /> Request Pickup
+            </a-button>
+            <a-button type="primary" danger> <CloseCircleOutlined /> Cancel </a-button>
           </a-list-item>
         </a-list>
-      </a-list-item>
-      <a-list-item class="actionButtons">
-        <a-button type="primary"> <GoldFilled /> Pengambilan Produk </a-button>
-        <a-button type="primary"> <DropboxOutlined /> Pengemasan Produk </a-button>
-        <a-button type="primary" style="background: LimeGreen">
-          <CarFilled /> Request Pickup
-        </a-button>
-        <a-button type="primary" danger> <CloseCircleOutlined /> Cancel </a-button>
-      </a-list-item>
+      </a-skeleton>
     </template>
-  </a-list>
+  </a-space>
 </template>
 <script lang="ts">
 import {
@@ -117,7 +107,10 @@ import {
   CarFilled,
   CloseCircleOutlined
 } from '@ant-design/icons-vue'
-import { defineComponent as DetailSalesWarehouse, type ComponentCustomProperties, ref } from 'vue'
+import {
+  defineComponent as DetailSalesWarehouse,
+  type ComponentCustomProperties,
+} from 'vue'
 
 interface DataItem extends ComponentCustomProperties {
   noInvoice: string
@@ -129,6 +122,7 @@ interface DataItem extends ComponentCustomProperties {
   totalItem: number
   productItems: object
 }
+const loading = ref(false);
 const data: DataItem[] = [
   {
     noInvoice: 'DPS/01/V1/0001',
@@ -169,22 +163,9 @@ export default DetailSalesWarehouse({
     CarFilled,
     CloseCircleOutlined
   },
-  data() {
-    return {
-      // checkedList: []
-      checked: []
-    }
-  },
-  methods: {
-    // onChange(checkedValues) {
-    //   console.log('checked = ', checkedValues)
-    // }
-  },
   setup() {
     return {
-      data,
-      checked: ref(false),
-      random: ref(Date.now())
+      data
     }
   }
 })
@@ -201,63 +182,10 @@ export default DetailSalesWarehouse({
 .actionButtons {
   display: block;
 }
-.actionButtons button,
-.itemQuantity button {
+.actionButtons button {
   width: 100%;
   height: auto;
   padding: 0.5rem;
-}
-
-.actionButtons button {
   margin: 0.5rem 2rem;
 }
-
-.itemQuantity button {
-  width: 90px;
-  margin: 0.25rem 0;
-}
-/*.invisible-checkboxes .ant-checkbox {
-  display: none;
-}
-
-.color-box {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  transition: background-color 250ms ease-out;
-}
-
-.color-box.checked {
-  background-color: green;
-}
-
-.invisible-checkboxes input[type=checkbox]{
-display: none;
- margin-right: -20px;
-position: relative;
-z-index: 2; 
-}
-
-.invisible-checkboxes input[type=checkbox]:checked + .checkbox-alias{
-  background-color: green;
-}
-
-.checkbox-alias{
-  background-color: red;
-  display: inline-block;
-  width: 100px;
-  height: 100px;
-  z-index: 1;
-  position: relative;
-  transition: all 250ms ease-out;
-  cursor: pointer;
-}
-
-.invisible-checkboxes .ant-checkbox-inner {
-  display: none;
-}
-
-.invisible-checkboxes .ant-checkbox-inner:checked + .checkbox-alias {
-  background-color: green;
-}*/
 </style>
